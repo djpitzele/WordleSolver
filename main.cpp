@@ -3,10 +3,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// NEXT STEP: INFO GUESSES! (potentially: do only info guesses until down to 1 word??)
-// SOMETHINGS IS BROKEN?? w/ info weghts + guesses
-// https://www.devangthakkar.com/wordle_archive/?204
-
 vector<vector<int>> weights;
 vector<vector<int>> infoWeights;
 vector<string> words;
@@ -189,11 +185,12 @@ void solve(int n, string s) {
   while(true) {
     isInfoGuess = false;
     string guess;
+    int maxInd;
     if(shouldInfo(guesses)) {
       //cout << "chose info" << endl;
       isInfoGuess = true;
       infoWeights = getWeights(n, true, isGreen);
-      int maxInd = -1;
+      maxInd = -1;
       int maxScore = -1;
       //cout << "starts for loop" << endl;
       // find word with the current highest score in words
@@ -209,7 +206,7 @@ void solve(int n, string s) {
     }
     else {
       weights = getWeights(n, false, isGreen);
-      int maxInd = -1;
+      maxInd = -1;
       int maxScore = -1;
       // find word with the current highest score in words
       for(int i = 0; i < words.size(); i++) {
@@ -222,6 +219,7 @@ void solve(int n, string s) {
       guess = words[maxInd];
     }
     cout << guess << endl;
+    words.erase(words.begin() + maxInd);
     guesses += 1;
     string status;
     cin >> status;
